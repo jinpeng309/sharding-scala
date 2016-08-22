@@ -5,7 +5,7 @@ import com.capslock.sharding.api.rule.ShardingValue
 /**
  * Created by capslock1874.
  */
-trait SingleKeyShardingAlgorithm[T <: Comparable[AnyVal]] extends ShardingAlgorithm {
+trait SingleKeyShardingAlgorithm[T <: Comparable[Any]] extends ShardingAlgorithm {
     def doEqualSharding(availableTargetNames: List[String], shardingValue: ShardingValue[T]): String
 
     def doInSharding(availableTargetNames: List[String], shardingValue: ShardingValue[T]): List[String]

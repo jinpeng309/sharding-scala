@@ -5,7 +5,7 @@ import com.capslock.sharding.api.rule.ShardingValue.ShardingValueType
 /**
  * Created by capslock1874.
  */
-case class ShardingValue[T <: Comparable[AnyVal]](logicTableName: String, columnName: String, value: Option[T], values: Option[List[T]],
+case class ShardingValue[T <: Comparable[Any]](logicTableName: String, columnName: String, value: Option[T], values: Option[List[T]],
     valueRange: Option[Range], shardingValueType: ShardingValueType) {
 }
 
@@ -19,12 +19,12 @@ object ShardingValue {
 
     case object RANGE extends ShardingValueType
 
-    def apply[T <: Comparable[AnyVal]](logicTableName: String, columnName: String, value: T): ShardingValue[T] =
+    def apply[T <: Comparable[Any]](logicTableName: String, columnName: String, value: T): ShardingValue[T] =
         new ShardingValue[T](logicTableName, columnName, Some(value), None, None, SINGLE)
 
-    def apply[T <: Comparable[AnyVal]](logicTableName: String, columnName: String, values: List[T]): ShardingValue[T] =
+    def apply[T <: Comparable[Any]](logicTableName: String, columnName: String, values: List[T]): ShardingValue[T] =
         new ShardingValue[T](logicTableName, columnName, None, Some(values), None, LIST)
 
-    def apply[T <: Comparable[AnyVal]](logicTableName: String, columnName: String, valueRange: Range): ShardingValue[T] =
+    def apply[T <: Comparable[Any]](logicTableName: String, columnName: String, valueRange: Range): ShardingValue[T] =
         new ShardingValue[T](logicTableName, columnName, None, None, Some(valueRange), RANGE)
 }

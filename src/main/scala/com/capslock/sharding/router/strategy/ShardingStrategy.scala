@@ -6,7 +6,7 @@ import com.capslock.sharding.parser.result.router.SQLStatementType
 /**
  * Created by capslock1874.
  */
-class ShardingStrategy[T <: Comparable[AnyVal]](val shardingColumns: List[String], val shardingAlgorithm: ShardingAlgorithm) {
+class ShardingStrategy[T <: Comparable[Any]](val shardingColumns: List[String], val shardingAlgorithm: ShardingAlgorithm) {
     def doStaticSharding(sqlStatementType: SQLStatementType.Type, availableTargetNames: List[String],
         shardingValues: List[ShardingValue[T]]): List[String] = {
         if (shardingValues.isEmpty) {
