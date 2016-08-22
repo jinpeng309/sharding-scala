@@ -1,11 +1,10 @@
 package com.capslock.sharding.api.rule
 
 /**
- * Created by alvin.
+ * Created by capslock1874.
  */
-class DataNode(val rawDataNode: String) {
-    val dataSourceName = rawDataNode.split(DataNode.DELIMITER)(0)
-    val tableName = rawDataNode.split(DataNode.DELIMITER)(1)
+class DataNode(val dataSourceName: String, val tableName: String) {
+
 }
 
 object DataNode {
@@ -13,5 +12,15 @@ object DataNode {
 
     def isValidDataNode(rawDataNode: String): Boolean = {
         rawDataNode.contains(DELIMITER) && rawDataNode.split(DELIMITER).length == 2
+    }
+
+    def apply(rawDataNode: String): DataNode = {
+        val dataSourceName = rawDataNode.split(DataNode.DELIMITER)(0)
+        val tableName = rawDataNode.split(DataNode.DELIMITER)(1)
+        new DataNode(dataSourceName, tableName)
+    }
+
+    def apply(dataSourceName: String, tableName: String): DataNode = {
+        new DataNode(dataSourceName, tableName)
     }
 }

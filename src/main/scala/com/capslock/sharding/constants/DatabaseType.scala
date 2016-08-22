@@ -1,7 +1,7 @@
 package com.capslock.sharding.constants
 
 /**
- * Created by alvin.
+ * Created by capslock1874.
  */
 object DatabaseType {
 

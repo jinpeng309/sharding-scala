@@ -3,7 +3,7 @@ package com.capslock.sharding.api.rule
 import javax.sql.DataSource
 
 /**
- * Created by alvin.
+ * Created by capslock1874.
  */
 class DataSourceRule(val sourceMap: Map[String, DataSource], val defaultSourceName: String) {
     val dataSourceMap = sourceMap
