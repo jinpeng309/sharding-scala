@@ -3,7 +3,7 @@ package com.capslock.sharding.parser.result.router
 import com.capslock.sharding.parser.result.router.Condition.{BinaryOperator, Column}
 
 /**
- * Created by alvin.
+ * Created by capslock1874.
  */
 case class Condition(column: Column, operator: BinaryOperator, values: List[Comparable[Any]], valueIndices: List[Int])
 
