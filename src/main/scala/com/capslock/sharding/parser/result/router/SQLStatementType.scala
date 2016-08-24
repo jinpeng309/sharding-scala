@@ -15,4 +15,6 @@ object SQLStatementType {
 
     case object DELETE extends Type
 
+    case object UNKNOWN extends Type
+
 }
