@@ -7,7 +7,7 @@ import com.capslock.sharding.constants.DatabaseType
 import com.capslock.sharding.parser.ParseContext.ValuePair
 import com.capslock.sharding.parser.result.SQLParsedResult
 import com.capslock.sharding.parser.result.router.Condition.{BinaryOperator, Column}
-import com.capslock.sharding.parser.result.router.{ConditionContext, Table}
+import com.capslock.sharding.parser.result.router.{Condition, ConditionContext, Table}
 import com.capslock.sharding.parser.visitor.MySQLEvalVisitor
 import com.capslock.sharding.util.SQLUtil.getExactlyValue
 
@@ -35,10 +35,27 @@ class ParseContext(var parseContextIndex: Int) {
     }
 
     def addCondition(expr: SQLExpr, operator: BinaryOperator, valueExprList: List[SQLExpr],
-        databaseType: DatabaseType.Type, parameters: List[Any]): Unit = {
+        databaseType: DatabaseType.Type, parameters: List[AnyRef]): Unit = {
         for (column <- getColumn(expr) if shardingColumns.contains(column.columnName)) {
-
+            val valuePairs = valueExprList.flatMap(express => evalExpression(databaseType, express, parameters))
+            if (valuePairs.nonEmpty) {
+                addCondition(column, operator, valuePairs)
+            }
         }
+    }
+
+    def addCondition(column: Column, operator: BinaryOperator, valuePairs: List[ValuePair]): Unit = {
+        val condition = currentConditionContext.find(column.tableName, column.columnName, operator).getOrElse({
+            val condition = new Condition(column, operator)
+            currentConditionContext.add(condition)
+            condition
+        })
+        valuePairs.foreach(valuePair => {
+            condition.addValue(valuePair.value)
+            if (valuePair.paramIndex > -1) {
+                condition.addIndex(valuePair.paramIndex)
+            }
+        })
     }
 
     def evalExpression(databaseType: DatabaseType.Type, sqlObject: SQLObject, parameters: List[AnyRef]): Option[ValuePair] = {

@@ -5,7 +5,17 @@ import com.capslock.sharding.parser.result.router.Condition.{BinaryOperator, Col
 /**
  * Created by capslock1874.
  */
-case class Condition(column: Column, operator: BinaryOperator, values: List[Comparable[Any]], valueIndices: List[Int])
+case class Condition(column: Column, operator: BinaryOperator, var values: List[Comparable[AnyRef]] = List(),
+    var valueIndices: List[Int] = List()) {
+
+    def addIndex(index: Int): Unit = {
+        valueIndices = valueIndices ::: List(index)
+    }
+
+    def addValue(value: Comparable[AnyRef]): Unit = {
+        values = values ::: List(value)
+    }
+}
 
 object Condition {
 
